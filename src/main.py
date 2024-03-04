@@ -1,8 +1,5 @@
-"""Main module for the FastAPI application."""
-import uvicorn
-from fastapi import FastAPI
+"""Main module for the Streamlit application."""
 
-app = FastAPI()
+import streamlit as st
 
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+st.write("Hello, world!")
