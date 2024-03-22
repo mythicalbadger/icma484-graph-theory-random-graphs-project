@@ -10,6 +10,15 @@ import math
 class GraphGeneration:
     """A class to generate random graphs."""
 
+    # edges = list()
+    #
+    # @classmethod
+    # def create_edges(cls, n: int):
+    #     for i in range(n):
+    #         for j in range(n):
+    #             if i != j:
+    #                 edges.append((i, j))
+
     @classmethod
     def generate_erdos_renyi_graph(cls, n: int, p: float) -> Graph:
         """Generate a random graph using the Erdos-Renyi model."""
@@ -52,9 +61,33 @@ class GraphGeneration:
             k = int(max(math.log(r, 1-p)-1, 0))
             edge = random.choice(edges)
             if graph.has_edge(edge[0], edge[1]):
-                # id rather not have edge dupes but this and continue is costly
                 i = i - k - 1
             graph.add_edge(edge[0], edge[1])
             i = i + k + 1
         return graph
 
+    @classmethod
+    def generate_PreLogZER_graph(cls, n: int, E: int, p: float) -> Graph:
+        """Generate a random graph using PreLogZER model"""
+        edges = list()
+        for i in range(n):
+            for j in range(n):
+                if i != j:
+                    edges.append((i, j))
+        vertices = {Vertex(i) for i in range(n)}
+        graph = Graph(vertices)
+        c = math.log(1-p)
+        mx = 2 ^ 32
+        log = list()
+        for i in range(1, mx+1):
+            log.append(math.log(i/mx))
+        i = -1
+        while i < E:
+            phi = random.randrange(0, mx)
+            k = int(max(math.ceil(log[phi]/c), 0))
+            edge = random.choice(edges)
+            if graph.has_edge(edge[0], edge[1]):
+                i = i - k - 1
+            graph.add_edge(edge[0], edge[1])
+            i = i + k + 1
+        return graph

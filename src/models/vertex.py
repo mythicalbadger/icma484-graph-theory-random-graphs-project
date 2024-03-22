@@ -23,7 +23,7 @@ class Vertex:
         """Return the degree of this vertex."""
         return len(self.neighbors)
 
-    def has_edge(self, other: "Vertex")->bool:
+    def has_edge(self, other: "Vertex") -> bool:
         if self.neighbors.__contains__(other):
             return True
         return False
