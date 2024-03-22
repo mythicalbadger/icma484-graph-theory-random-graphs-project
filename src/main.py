@@ -30,3 +30,13 @@ if st.button("Generate ER graph"):
 
     nx.draw(networkx_graph, position, node_color="skyblue", edge_color="black")
     st.pyplot(fig)
+
+if st.button("Generate ZER graph"):
+    graph = GraphGeneration.generate_ZER_graph(n, E, p)
+    fig, ax = plt.subplots(1, 1, figsize=(10, 10))
+    networkx_graph = graph.to_networkx()
+    position = nx.kamada_kawai_layout(networkx_graph)
+
+    nx.draw(networkx_graph, position, node_color="skyblue", edge_color="black")
+    st.pyplot(fig)
+
