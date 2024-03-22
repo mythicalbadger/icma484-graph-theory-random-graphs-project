@@ -26,6 +26,11 @@ class Graph:
         v1.remove_edge(v2)
         v2.remove_edge(v1)
 
+    def has_edge(self, v1_label: int, v2_label: int) -> bool:
+        """"Check if there exist an edge between two vertices"""
+        v1 = self.vertices[v1_label]
+        v2 = self.vertices[v2_label]
+        return v1.has_edge(v2) and v2.has_edge(v1)
     def to_networkx(self) -> nx.Graph:
         """Return a networkx graph representation of this graph."""
         g = nx.Graph()

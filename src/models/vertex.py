@@ -23,6 +23,11 @@ class Vertex:
         """Return the degree of this vertex."""
         return len(self.neighbors)
 
+    def has_edge(self, other: "Vertex")->bool:
+        if self.neighbors.__contains__(other):
+            return True
+        return False
+
     def __str__(self) -> str:
         """Return the label of this vertex as a string."""
         return f"Node({self.label})"
