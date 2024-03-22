@@ -15,9 +15,12 @@ E = st.number_input("Max number of edges", min_value=0, max_value=comb(n, 2), va
 
 # GraphGeneration.create_edges(n)
 
+width = st.sidebar.slider("plot width", 1, 25, 3)
+height = st.sidebar.slider("plot height", 1, 25, 1)
+
 if st.button("Generate graph"):
     graph = GraphGeneration.generate_erdos_renyi_graph(n, p)
-    fig, ax = plt.subplots(1, 1, figsize=(10, 10))
+    fig, ax = plt.subplots(1, 1, figsize=(width, height))
     networkx_graph = graph.to_networkx()
     position = nx.kamada_kawai_layout(networkx_graph)
 
@@ -26,7 +29,7 @@ if st.button("Generate graph"):
 
 if st.button("Generate ER graph"):
     graph = GraphGeneration.generate_ER_graph(n, E, p)
-    fig, ax = plt.subplots(1, 1, figsize=(10, 10))
+    fig, ax = plt.subplots(1, 1, figsize=(width, height))
     networkx_graph = graph.to_networkx()
     position = nx.kamada_kawai_layout(networkx_graph)
 
@@ -35,7 +38,7 @@ if st.button("Generate ER graph"):
 
 if st.button("Generate ZER graph"):
     graph = GraphGeneration.generate_ZER_graph(n, E, p)
-    fig, ax = plt.subplots(1, 1, figsize=(10, 10))
+    fig, ax = plt.subplots(1, 1, figsize=(width, height))
     networkx_graph = graph.to_networkx()
     position = nx.kamada_kawai_layout(networkx_graph)
 
@@ -44,7 +47,7 @@ if st.button("Generate ZER graph"):
 
 if st.button("Generate PreLogZER graph"):
     graph = GraphGeneration.generate_PreLogZER_graph(n, E, p)
-    fig, ax = plt.subplots(1, 1, figsize=(10, 10))
+    fig, ax = plt.subplots(1, 1, figsize=(width, height))
     networkx_graph = graph.to_networkx()
     position = nx.kamada_kawai_layout(networkx_graph)
 
