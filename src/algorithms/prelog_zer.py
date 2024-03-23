@@ -6,8 +6,8 @@ import random
 from src.algorithms.graph_generation import GraphGeneration
 from src.models.graph import Graph
 from src.models.vertex import Vertex
-
 from src.utils import decode_edge_no_self_loops
+
 
 def decode_edge_index(index: int, n: int) -> tuple[int, int]:
     """Decode an edge index into a pair of vertex labels."""
@@ -22,13 +22,13 @@ class PreLogZER(GraphGeneration):
         vertices = {Vertex(i) for i in range(n)}
         graph = Graph(vertices)
         c = math.log(1 - p)
-        mx = 2 ** 32
+        rand_max = 2**16  # 16-bit random number
         log = list()
-        for i in range(1, mx + 1):
-            log.append(math.log(i / mx))
+        for i in range(1, rand_max + 1):
+            log.append(math.log(i / rand_max))
         i = -1
         while i < e:
-            phi = random.randrange(0, mx)
+            phi = random.getrandbits(16)
             k = int(max(math.ceil(log[phi] / c), 0))
             i = i + k + 1
             v_i, v_j = decode_edge_no_self_loops(i, n)
