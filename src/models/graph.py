@@ -21,6 +21,9 @@ class Graph:
 
     def add_edge(self, v1_label: int, v2_label: int) -> None:
         """Add an edge between two vertices."""
+        if self.has_edge(v1_label, v2_label):
+            return
+
         v1, v2 = self.vertices[v1_label], self.vertices[v2_label]
         v1.add_edge(v2)
         v2.add_edge(v1)
@@ -28,6 +31,9 @@ class Graph:
 
     def remove_edge(self, v1_label: int, v2_label: int) -> None:
         """Remove the edge between two vertices."""
+        if not self.has_edge(v1_label, v2_label):
+            return
+
         v1, v2 = self.vertices[v1_label], self.vertices[v2_label]
         v1.remove_edge(v2)
         v2.remove_edge(v1)
