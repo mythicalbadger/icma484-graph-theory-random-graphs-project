@@ -59,7 +59,3 @@ class PreZER(GraphGeneration):
 
         graph.remove_edge(vertex_i, vertex_j)
         return graph
-
-    def generate_fixed_edge(self, n: int, e: int, p: float) -> Graph:
-        """Generate a random graph with a fixed number of edges."""
-        raise NotImplementedError
