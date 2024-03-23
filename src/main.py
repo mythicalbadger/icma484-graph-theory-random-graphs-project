@@ -1,7 +1,8 @@
 """Main module for the Streamlit application."""
 
-import matplotlib.pyplot as plt
 from math import comb
+
+import matplotlib.pyplot as plt
 import networkx as nx
 import streamlit as st
 
@@ -47,6 +48,15 @@ if st.button("Generate ZER graph"):
 
 if st.button("Generate PreLogZER graph"):
     graph = GraphGeneration.generate_PreLogZER_graph(n, E, p)
+    fig, ax = plt.subplots(1, 1, figsize=(width, height))
+    networkx_graph = graph.to_networkx()
+    position = nx.kamada_kawai_layout(networkx_graph)
+
+    nx.draw(networkx_graph, position, node_color="skyblue", edge_color="black")
+    st.pyplot(fig)
+
+if st.button("Generate PreZER graph"):
+    graph = GraphGeneration.generate_prezer_graph(n, E, p)
     fig, ax = plt.subplots(1, 1, figsize=(width, height))
     networkx_graph = graph.to_networkx()
     position = nx.kamada_kawai_layout(networkx_graph)
