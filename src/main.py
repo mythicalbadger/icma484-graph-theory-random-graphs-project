@@ -6,57 +6,49 @@ import matplotlib.pyplot as plt
 import networkx as nx
 import streamlit as st
 
+from src.algorithms.er import ER
 from src.algorithms.graph_generation import GraphGeneration
+from src.algorithms.pre_zer import PreZER
+from src.algorithms.prelog_zer import PreLogZER
+from src.algorithms.zer import ZER
 
-st.write("Hello, world!")
+algorithms = {"ER": ER(), "ZER": ZER(), "PreLogZER": PreLogZER(), "PreZER": PreZER()}
 
-n = st.number_input("Number of vertices", min_value=1, value=10)
-p = st.number_input("Edge probability", min_value=0.0, max_value=1.0, value=0.5)
-E = st.number_input("Max number of edges", min_value=0, max_value=comb(n, 2), value=15)
+st.title("Random Graph Generator")
+st.sidebar.title("Parameters")
 
-# GraphGeneration.create_edges(n)
+n = st.sidebar.number_input("Number of vertices", min_value=1, value=10)
+p = st.sidebar.number_input("Edge probability", min_value=0.0, max_value=1.0, value=0.5)
 
-width = st.sidebar.slider("plot width", 1, 25, 3)
-height = st.sidebar.slider("plot height", 1, 25, 1)
+col1, col2 = st.sidebar.columns(2)
 
-if st.button("Generate graph"):
-    graph = GraphGeneration.generate_erdos_renyi_graph(n, p)
-    fig, ax = plt.subplots(1, 1, figsize=(width, height))
-    networkx_graph = graph.to_networkx()
-    position = nx.kamada_kawai_layout(networkx_graph)
+with col1:
+    placeholder_E = st.empty()
+    if "E" not in st.session_state:
+        st.session_state.E = 15
+with col2:
+    max_edges = st.sidebar.button("Max")
+    if max_edges:
+        st.session_state.E = comb(n, 2)
 
-    nx.draw(networkx_graph, position, node_color="skyblue", edge_color="black")
-    st.pyplot(fig)
+E = placeholder_E.number_input(
+    "Max number of edges", min_value=0, max_value=comb(n, 2), key="E"
+)
 
-if st.button("Generate ER graph"):
-    graph = GraphGeneration.generate_ER_graph(n, E, p)
-    fig, ax = plt.subplots(1, 1, figsize=(width, height))
-    networkx_graph = graph.to_networkx()
-    position = nx.kamada_kawai_layout(networkx_graph)
+algorithm = st.sidebar.selectbox(
+    label="Select a graph generation algorithm",
+    options=list(algorithms.keys()),
+    index=0,
+)
 
-    nx.draw(networkx_graph, position, node_color="skyblue", edge_color="black")
-    st.pyplot(fig)
+st.sidebar.title("Plot Settings")
+width = st.sidebar.slider("plot width", 1, 25, 20)
+height = st.sidebar.slider("plot height", 1, 25, 20)
 
-if st.button("Generate ZER graph"):
-    graph = GraphGeneration.generate_ZER_graph(n, E, p)
-    fig, ax = plt.subplots(1, 1, figsize=(width, height))
-    networkx_graph = graph.to_networkx()
-    position = nx.kamada_kawai_layout(networkx_graph)
+graph_generation_algo: GraphGeneration = algorithms[algorithm]
 
-    nx.draw(networkx_graph, position, node_color="skyblue", edge_color="black")
-    st.pyplot(fig)
-
-if st.button("Generate PreLogZER graph"):
-    graph = GraphGeneration.generate_PreLogZER_graph(n, E, p)
-    fig, ax = plt.subplots(1, 1, figsize=(width, height))
-    networkx_graph = graph.to_networkx()
-    position = nx.kamada_kawai_layout(networkx_graph)
-
-    nx.draw(networkx_graph, position, node_color="skyblue", edge_color="black")
-    st.pyplot(fig)
-
-if st.button("Generate PreZER graph"):
-    graph = GraphGeneration.generate_prezer_graph(n, E, p)
+if st.sidebar.button("Generate graph"):
+    graph = graph_generation_algo.generate(n, E, p)
     fig, ax = plt.subplots(1, 1, figsize=(width, height))
     networkx_graph = graph.to_networkx()
     position = nx.kamada_kawai_layout(networkx_graph)
