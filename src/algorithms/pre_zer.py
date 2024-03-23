@@ -6,6 +6,7 @@ import random
 from src.algorithms.graph_generation import GraphGeneration
 from src.models.graph import Graph
 from src.models.vertex import Vertex
+from src.utils import decode_edge_no_self_loops
 
 
 def cumulative_probability(k: int, p: float) -> float:
@@ -52,9 +53,13 @@ class PreZER(GraphGeneration):
             if idx == m + 1:
                 skip_value = math.ceil(log(1 - alpha, 1 - p)) - 1
             edge_count = edge_count + skip_value + 1
-            vertex_i, vertex_j = decode_edge_index(edge_count, n)
+            vertex_i, vertex_j = decode_edge_no_self_loops(edge_count, n)
 
             graph.add_edge(vertex_i, vertex_j)
 
         graph.remove_edge(vertex_i, vertex_j)
         return graph
+
+    def generate_fixed_edge(self, n: int, e: int, p: float) -> Graph:
+        """Generate a random graph with a fixed number of edges."""
+        raise NotImplementedError

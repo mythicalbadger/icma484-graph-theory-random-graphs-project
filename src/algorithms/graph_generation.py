@@ -19,3 +19,8 @@ class GraphGeneration(metaclass=abc.ABCMeta):
     def generate(self, n: int, e: int, p: float) -> Graph:
         """Generate a random graph given max number of edges."""
         raise NotImplementedError
+
+    @abc.abstractmethod
+    def generate_fixed_edge(self, n: int, e: int, p: float) -> Graph:
+        """Generate a random graph given fixed number of edges."""
+        raise NotImplementedError

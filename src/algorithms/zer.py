@@ -30,3 +30,7 @@ class ZER(GraphGeneration):
             graph.add_edge(edge[0], edge[1])
             i = i + k + 1
         return graph
+
+    def generate_fixed_edge(self, n: int, e: int, p: float) -> Graph:
+        """Generate a random graph with a fixed number of edges."""
+        raise NotImplementedError
