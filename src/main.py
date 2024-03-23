@@ -18,7 +18,9 @@ st.title("Random Graph Generator")
 st.sidebar.title("Parameters")
 
 n = st.sidebar.number_input("Number of vertices", min_value=1, value=10)
-p = st.sidebar.number_input("Edge probability", min_value=0.0, max_value=1.0, value=0.5)
+p = st.sidebar.number_input(
+    "Edge probability", min_value=0.0, max_value=0.99, value=0.5
+)
 
 col1, col2 = st.sidebar.columns(2)
 
@@ -55,3 +57,6 @@ if st.sidebar.button("Generate graph"):
 
     nx.draw(networkx_graph, position, node_color="skyblue", edge_color="black")
     st.pyplot(fig)
+
+    st.write(f"n: {graph.order}")
+    st.write(f"m: {graph.size}")
