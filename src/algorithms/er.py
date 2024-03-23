@@ -5,7 +5,11 @@ import random
 from src.algorithms.graph_generation import GraphGeneration
 from src.models.graph import Graph
 from src.models.vertex import Vertex
+from src.utils import decode_edge_no_self_loops
 
+def decode_edge_index(index: int, n: int) -> tuple[int, int]:
+    """Decode an edge index into a pair of vertex labels."""
+    return index // n, index % n
 
 class ER(GraphGeneration):
     """A class to represent the ER algorithm."""
@@ -15,11 +19,8 @@ class ER(GraphGeneration):
         vertices = {Vertex(i) for i in range(n)}
         graph = Graph(vertices)
         for i in range(e):
-            r1 = random.randint(0, n - 1)
-            r2 = random.randint(0, n - 1)
-            while graph.has_edge(r1, r2) or r1 == r2:
-                r1 = random.randint(0, n - 1)
-                r2 = random.randint(0, n - 1)
             if random.random() < p:
-                graph.add_edge(r1, r2)
+                v_i, v_j = decode_edge_no_self_loops(i, n)
+                graph.add_edge(v_i, v_j)
+        graph.remove_edge(v_i, v_j)
         return graph
