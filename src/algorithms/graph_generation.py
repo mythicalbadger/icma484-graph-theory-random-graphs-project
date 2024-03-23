@@ -9,7 +9,7 @@ class GraphGeneration(metaclass=abc.ABCMeta):
     """A class to generate random graphs."""
 
     @classmethod
-    def __subclasshook__(cls, __subclass) -> bool | _NotImplementedType:  # noqa ann001
+    def __subclasshook__(cls, __subclass) -> bool:  # noqa ann001
         """Check if the class has the required methods."""
         return (
             hasattr(__subclass, "generate_enp") and callable(__subclass.generate)
