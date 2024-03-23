@@ -14,6 +14,6 @@ def decode_edge_no_self_loops(index: int, n: int) -> tuple[int, int]:
     return (i, j) if i != j else decode_edge_no_self_loops(index + 1, n)
 
 
-def calculate_n_c(n: int, c: int = 42) -> int:
+def calculate_n_c(n: int, c: int = 3) -> int:
     """Calculate the number of edges used in Erdos-Renyi paper."""
     return int(0.5 * n * math.log(n) + c * n)
