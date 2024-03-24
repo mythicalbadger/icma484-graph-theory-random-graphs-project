@@ -7,9 +7,11 @@ from src.models.graph import Graph
 from src.models.vertex import Vertex
 from src.utils import decode_edge_no_self_loops
 
+
 def decode_edge_index(index: int, n: int) -> tuple[int, int]:
     """Decode an edge index into a pair of vertex labels."""
     return index // n, index % n
+
 
 class ER(GraphGeneration):
     """A class to represent the ER algorithm."""
