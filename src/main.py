@@ -61,8 +61,11 @@ algorithm = st.sidebar.selectbox(
 )
 
 st.sidebar.title("Plot Settings")
-width = st.sidebar.slider("plot width", 1, 25, 20)
-height = st.sidebar.slider("plot height", 1, 25, 20)
+plot = st.sidebar.checkbox("Plot graph", value=False)
+
+if plot:
+    width = st.sidebar.slider("plot width", 1, 25, 20)
+    height = st.sidebar.slider("plot height", 1, 25, 20)
 
 graph_generation_algo: GraphGeneration = algorithms[algorithm]
 
@@ -80,13 +83,10 @@ if st.sidebar.button("Generate graph"):
     col2.metric("Size", graph.size)
 
     st.header("Connectivity")
-    col1, col2, col3 = st.columns(3)
+    col1, col2 = st.columns(2)
     col1.metric("Average degree", GraphProperties.average_degree(graph))
     col2.metric(
         "Connected", "Yes" if GraphProperties.is_connected(networkx_graph) else "No"
-    )
-    col3.metric(
-        "Number of components", GraphProperties.number_of_components(networkx_graph)
     )
 
     st.header("Coloring")
@@ -97,12 +97,20 @@ if st.sidebar.button("Generate graph"):
     col1, col2 = st.columns(2)
     col1.metric("Planar", "Yes" if GraphProperties.is_planar(networkx_graph) else "No")
 
-    st.header("Maximal Independent Set")
+    st.header("Components")
     col1, col2 = st.columns(2)
-    col1.metric("Size", len(GraphProperties.maximal_independent_set(networkx_graph)))
+    col1.metric(
+        "Maximal independent set",
+        len(GraphProperties.maximal_independent_set(networkx_graph)),
+    )
+    col2.metric(
+        "Greatest component size",
+        GraphProperties.greatest_component(networkx_graph).number_of_nodes(),
+    )
 
-    st.header("Visualization")
-    fig, ax = plt.subplots(1, 1, figsize=(width, height))
-    position = nx.kamada_kawai_layout(networkx_graph)
-    nx.draw(networkx_graph, position, node_color="skyblue", edge_color="black")
-    st.pyplot(fig)
+    if plot:
+        st.header("Visualization")
+        fig, ax = plt.subplots(1, 1, figsize=(width, height))
+        position = nx.kamada_kawai_layout(networkx_graph)
+        nx.draw(networkx_graph, position, node_color="skyblue", edge_color="black")
+        st.pyplot(fig)

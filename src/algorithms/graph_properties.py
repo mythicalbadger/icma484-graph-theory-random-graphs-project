@@ -43,3 +43,9 @@ class GraphProperties:
     def is_planar(cls, nx_graph: networkx.Graph) -> bool:
         """Check if the graph is planar."""
         return networkx.check_planarity(nx_graph)[0]
+
+    @classmethod
+    def greatest_component(cls, nx_graph: networkx.Graph) -> networkx.Graph:
+        """Return the greatest component of the graph."""
+        giant = max(networkx.connected_components(nx_graph), key=len)
+        return nx_graph.subgraph(giant)
