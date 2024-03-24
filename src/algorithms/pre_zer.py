@@ -33,7 +33,9 @@ class PreZER(GraphGeneration):
         vertices = {Vertex(i) for i in range(n)}
         graph = Graph(vertices)
 
-        cumulative_skip_probabilities = [cumulative_probability(k, p) for k in range(m)]
+        cumulative_skip_probabilities = [
+            cumulative_probability(k, p) for k in range(m + 1)
+        ]
 
         edge_count = -1
         skip_value = -1
